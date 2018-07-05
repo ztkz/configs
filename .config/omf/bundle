@@ -1,0 +1,10 @@
+package colorman
+package extract
+package grc
+package lucky
+package pbcopy
+package python
+package sublime
+package virtualfish
+theme bobthefish
+theme default
