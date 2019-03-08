@@ -37,7 +37,8 @@ if isdirectory(expand('$HOME/.vim/bundle/Vundle.vim'))
   Plugin 'scrooloose/nerdtree'
   Plugin 'vim-syntastic/syntastic'
   " Plugin 'tpope/vim-surround.git'  " TODO.
-  Plugin 'chriskempson/base16-vim'
+  " Plugin 'chriskempson/base16-vim'  # TODO.
+  Plugin 'danielwe/base16-vim'
   Plugin 'ctrlpvim/ctrlp.vim'
   Plugin 'FelikZ/ctrlp-py-matcher'
   Plugin 'altercation/vim-colors-solarized'
