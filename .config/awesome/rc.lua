@@ -50,6 +50,7 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "gnome-terminal"
+terminal = "alacritty"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -101,7 +102,7 @@ function scandir(directory, filter)
 end
 
 wp_index = 1
-wp_timeout  = 10
+wp_timeout  = 1000
 wp_path = "/home/artem/Images/4k/"
 wp_filter = function(s) return string.match(s,"%.png$") or string.match(s,"%.jpg$") end
 wp_files = scandir(wp_path, wp_filter)
@@ -129,7 +130,7 @@ end
 
 wp_set()
 gears.timer {
-    timeout   = 10,
+    timeout   = wp_timeout,
     autostart = true,
     callback  = wp_set
 }
@@ -232,7 +233,7 @@ local lain = require("lain")
 
 local cpu = lain.widget.cpu {
     settings = function()
-            widget:set_markup("cpu " .. cpu_now.usage .. "% ")
+            widget:set_markup("cpu " .. (20 * cpu_now.usage) .. "% ")
         end
 }
 
@@ -290,7 +291,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
-	    cpu.widget,
+            cpu.widget,
             systray,
             mytextclock,
             s.mylayoutbox,
@@ -361,8 +362,8 @@ globalkeys = gears.table.join(
               {description = "open Telegram", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
+    -- awful.key({ modkey, "Shift"   }, "q", awesome.quit,
+    --           {description = "quit awesome", group = "awesome"}),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
@@ -423,6 +424,11 @@ globalkeys = gears.table.join(
         end,
         {description = "hibernate", group = "global"}),
     awful.key({ "Mod1", "Control" }, "s",
+        function ()
+            awful.util.spawn("systemctl suspend")
+        end,
+        {description = "suspend", group = "global"}),
+    awful.key({ "Mod1", "Control" }, "b",
         function ()
             awful.util.spawn("systemctl hybrid-sleep")
         end,

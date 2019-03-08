@@ -5,6 +5,8 @@ set -g theme_show_exit_status yes
 # set -g theme_git_worktree_support yes
 set -g fish_prompt_pwd_dir_length 1
 
+# set -g fish_term24bit 1
+
 set -U EDITOR vim
 # set -U TERM xterm-256color
 
@@ -24,9 +26,10 @@ eval (python -m virtualfish)
 # bash /usr/bin/virtualenvwrapper.sh
 
 # Base16 Shell
-if status --is-interactive
-   source $HOME/.config/base16-shell/profile_helper.fish
-end
+# if status --is-interactive
+#   source $HOME/.config/base16-shell/profile_helper.fish
+# end
+source $HOME/.config/base16-shell/profile_helper.fish
 
 # Verbose
 alias rm "rm -vi"
@@ -37,6 +40,11 @@ alias umount "umount -v"
 alias mv 'mv -vi'
 alias cp 'cp -vi'
 alias mkdir 'mkdir -v'
+
+alias sctlr 'systemctl reboot'
+alias sctlp 'systemctl poweroff'
+alias sctls 'systemctl suspend'
+alias sctlh 'systemctl hibernate'
 
 umask 027
 

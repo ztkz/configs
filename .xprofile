@@ -1,0 +1,24 @@
+# xset s off
+# xset -dpms
+
+export GDK_SCALE=2
+export GDK_DPI_SCALE=0.5
+export GDK_DPI_SCALE=-1
+
+TIMEOUT=60
+NOTIFY=5
+HYBRID_SLEEP_TIMEOUT_MINUTES=60
+
+gsettings set org.mate.screensaver lock-delay 1
+gsettings set org.mate.screensaver lock-dialog-theme 'artemz'
+gsettings set org.mate.background picture-filename '/home/artem/Images/1969-red-ferrari-dino-246-gt-1920x1080-wallpaper-18525.jpg'
+gsettings set org.mate.background picture-options wallpaper
+
+mate-screensaver&
+xautolock -time $(((${TIMEOUT}+59)/60)) -locker "mate-screensaver-command -l" -notify "${NOTIFY}" -notifier "/usr/bin/screensaver_notify.sh ${NOTIFY}" -detectsleep&
+
+
+
+# xautolock -time $(((${TIMEOUT}+59)/60)) -locker "mate-screensaver-command -l" -notify "${NOTIFY}" -notifier "/usr/bin/screensaver_notify.sh ${NOTIFY}" -detectsleep -secure&
+# xautolock -time $(((${TIMEOUT}+59)/60)) -locker "/usr/bin/xsecurelock_with_params.sh" -notify "${NOTIFY}" -notifier "/usr/bin/screensaver_notify.sh ${NOTIFY}" -detectsleep -secure&
+# xautolock -time "${HYBRID_SLEEP_TIMEOUT_MINUTES}" -locker "systemctl hybrid-sleep" -detectsleep&

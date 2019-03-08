@@ -1,0 +1,12 @@
+# /usr/share/applications/screensavers/glslideshow.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=GLSlideshow
+Comment=Loads a random sequence of images and smoothly scans and zooms around in each, fading from pan to pan. Written by Jamie Zawinski and Mike Oliphant; 2003.
+TryExec=glslideshow
+Exec=glslideshow -root -duration 10 -zoom 100 -pan 1 -fade 0 -no-letterbox
+StartupNotify=false
+Terminal=false
+Type=Application
+Categories=Screensaver;
+OnlyShowIn=MATE;
