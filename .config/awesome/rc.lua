@@ -155,19 +155,19 @@ end
 -- }}}
 
 -- {{{ Menu
--- -- Create a launcher widget and a main menu
--- myawesomemenu = {
---    { "hotkeys", function() return false, hotkeys_popup.show_help end},
---    { "manual", terminal .. " -e man awesome" },
---    { "edit config", editor_cmd .. " " .. awesome.conffile },
---    { "restart", awesome.restart },
---    { "quit", function() awesome.quit() end}
--- }
---
--- mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
---                                     { "open terminal", terminal }
---                                   }
---                         })
+-- Create a launcher widget and a main menu
+myawesomemenu = {
+   { "hotkeys", function() return false, hotkeys_popup.show_help end},
+   { "manual", terminal .. " -e man awesome" },
+   { "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "restart", awesome.restart },
+   { "quit", function() awesome.quit() end}
+}
+
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "open terminal", terminal }
+                                  }
+                        })
 --
 -- mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 --                                      menu = mymainmenu })
@@ -231,11 +231,32 @@ local systray = wibox.widget.systray()
 
 local lain = require("lain")
 
-local cpu = lain.widget.cpu {
-    settings = function()
-            widget:set_markup("cpu " .. (20 * cpu_now.usage) .. "% ")
-        end
-}
+-- local cpu = lain.widget.cpu {
+--     settings = function()
+--             local user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice =
+--             stdout:match('(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s')
+--             local total = user + nice + system + idle + iowait + irq + softirq + steal
+--             widget:set_markup("cpu " .. (total) .. "% ")
+--             -- widget:set_markup("cpu " .. (20 * cpu_now.usage) .. "% ")
+--         end
+-- }
+-- local cpu_usage_widget = cpu.widget
+
+local cpu_total_prev = 0
+local cpu_idle_prev = 0
+local cpu_usage_widget = awful.widget.watch('bash -c "cat /proc/stat | grep \'^cpu \'"', 3, function(widget, stdout)
+                                        local user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice =
+                                        stdout:match('(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s')
+                                        local total = user + nice + system + idle + iowait + irq + softirq + steal
+                                        local diff_total = total - cpu_total_prev
+                                        local diff_idle = idle - cpu_idle_prev
+                                        local usage = (diff_total - diff_idle) / diff_total * 20  -- num cores
+                                        cpu_total_prev = total
+                                        cpu_idle_prev = idle
+                                        widget:set_text(string.format(" cpu %.3f ", usage))
+                                      end)
+local cpu_temp_widget = awful.widget.watch(
+    'bash -c "sensors | grep \'high =\' | cut -c15-23 | tr -d \'+ \' | sort -n | tail -1"', 3)
 
 -- local function set_wallpaper(s)
 --     -- Wallpaper
@@ -291,7 +312,8 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
-            cpu.widget,
+            cpu_usage_widget,
+            cpu_temp_widget,
             systray,
             mytextclock,
             s.mylayoutbox,

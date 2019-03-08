@@ -15,7 +15,7 @@ xmodmap -e 'keycode 0x42=Escape' #remaps the keyboard so CAPS LOCK=ESC
 if [[ $(hostname) == "Artems-PC" ]]; then
   run /home/artem/Applications/Telegram/Telegram -startintray
   # run /usr/bin/dropbox
-  run mailru-cloud
+  # run mailru-cloud
   run caffeine
   run transmission-qt
   run nm-applet
