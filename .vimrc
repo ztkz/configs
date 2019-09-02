@@ -55,12 +55,14 @@ if isdirectory(expand('$HOME/.vim/bundle/Vundle.vim'))
   Plugin 'google/vim-glaive'
   " https://github.com/tpope/vim-sensible  " TODO.
   Plugin 'vim-scripts/vcscommand.vim'
-  " Plugin 'airblade/vim-gitgutter'
-  Plugin 'tpope/vim-fugitive.git'
+  Plugin 'airblade/vim-gitgutter'
+  " Plugin 'tpope/vim-fugitive.git'
   Plugin 'lyokha/vim-xkbswitch'
   Plugin 'ryanoasis/vim-devicons'
   Plugin 'mhinz/vim-signify'
   Plugin 'tpope/vim-obsession'
+  Plugin 'editorconfig/editorconfig-vim'
+  Plugin 'ambv/black'
   """""""""""""""""""""
   " Plugin 'scrooloose/nerdcommenter'
   " Plugin 'Valloric/MatchTagAlways'
@@ -85,6 +87,7 @@ endif
 call glaive#Install()
 " Optional: Enable codefmt's default mappings on the <Leader>= prefix.
 Glaive codefmt plugin[mappings]
+autocmd FileType python let b:codefmt_formatter = 'yapf'
 " Glaive codefmt google_java_executable="java -jar /path/to/google-java-format-VERSION-all-deps.jar"
 
 "==============="
@@ -157,6 +160,7 @@ else
 endif
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#whitespace#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline_powerline_fonts = 1
 
 " Tmuxline.
@@ -182,8 +186,8 @@ let g:tmuxline_preset = {
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
+let g:crtlp_root_markers = ['BUILD']
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll)$',
@@ -233,6 +237,9 @@ let g:NERDTrimTrailingWhitespace = 1
 "   " Alternative: autocmd FileType python AutoFormatBuffer autopep8
 " augroup END
 
+" Black
+let g:black_linelength = 99
+
 " ESC timeout
 set timeoutlen=1000 ttimeoutlen=0
 set updatetime=250
@@ -251,6 +258,9 @@ set number relativenumber
 " set nonumber norelativenumber  " turn hybrid line numbers off
 " set !number !relativenumber    " toggle hybrid line numbers
 
+" Backspace fix
+set backspace=indent,eol,start
+
 " Fast saving
 nmap <c-s> :w<CR>
 vmap <c-s> <Esc><c-s>gv
@@ -261,3 +271,12 @@ imap <F2> <c-o><F2>
 
 " Split line
 nnoremap <s-k> i<CR><Esc>k$
+
+let &titlestring = "vi " . expand("%:t")
+if &term == "screen"
+  set t_ts=^[k
+  set t_fs=^[\
+endif
+  if &term == "screen" || &term == "xterm"
+    set title
+endif
