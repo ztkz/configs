@@ -41,7 +41,7 @@ if isdirectory(expand('$HOME/.vim/bundle/Vundle.vim'))
   Plugin 'danielwe/base16-vim'
   Plugin 'ctrlpvim/ctrlp.vim'
   Plugin 'FelikZ/ctrlp-py-matcher'
-  Plugin 'altercation/vim-colors-solarized'
+  " Plugin 'altercation/vim-colors-solarized'
   Plugin 'majutsushi/tagbar'
   Plugin 'scrooloose/nerdcommenter'
   " Plugin 'easymotion/vim-easymotion'  " TODO.
@@ -63,6 +63,7 @@ if isdirectory(expand('$HOME/.vim/bundle/Vundle.vim'))
   Plugin 'tpope/vim-obsession'
   Plugin 'editorconfig/editorconfig-vim'
   Plugin 'ambv/black'
+  Plugin 'lifepillar/vim-solarized8'
   """""""""""""""""""""
   " Plugin 'scrooloose/nerdcommenter'
   " Plugin 'Valloric/MatchTagAlways'
@@ -138,16 +139,20 @@ set mouse=a
 autocmd VimLeave * call system("xsel -ib", getreg('+'))
 
 " Colors.
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+colorscheme solarized8
 " set t_Co=256
-let g:solarized_termcolors=256
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-else
-  echomsg 'Please install Base16 Shell.'
-  let base16colorspace=256 " Access colors present in 256 colorspace
-  colorscheme base16-solarized-dark
-endif
+" let g:solarized_termcolors=256
+" if filereadable(expand("~/.vimrc_background"))
+"   let base16colorspace=256
+"   source ~/.vimrc_background
+" else
+"   echomsg 'Please install Base16 Shell.'
+"   let base16colorspace=256 " Access colors present in 256 colorspace
+"   colorscheme base16-solarized-dark
+" endif
 
 " Airline.
 if filereadable(expand("~/.config/vim/theme"))
