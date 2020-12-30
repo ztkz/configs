@@ -57,13 +57,16 @@ if isdirectory(expand('$HOME/.vim/bundle/Vundle.vim'))
   Plugin 'vim-scripts/vcscommand.vim'
   Plugin 'airblade/vim-gitgutter'
   " Plugin 'tpope/vim-fugitive.git'
-  Plugin 'lyokha/vim-xkbswitch'
+  " Plugin 'lyokha/vim-xkbswitch'
   Plugin 'ryanoasis/vim-devicons'
   Plugin 'mhinz/vim-signify'
   Plugin 'tpope/vim-obsession'
   Plugin 'editorconfig/editorconfig-vim'
   Plugin 'ambv/black'
   Plugin 'lifepillar/vim-solarized8'
+  " Plugin 'noahfrederick/vim-noctu'
+  " Plugin 'jeffkreeftmeijer/vim-dim'
+  Plugin 'dawikur/base16-vim-airline-themes'
   """""""""""""""""""""
   " Plugin 'scrooloose/nerdcommenter'
   " Plugin 'Valloric/MatchTagAlways'
@@ -142,33 +145,42 @@ autocmd VimLeave * call system("xsel -ib", getreg('+'))
 set termguicolors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+let g:airline_theme = 'base16_classic'
 colorscheme solarized8
 " set t_Co=256
 " let g:solarized_termcolors=256
-" if filereadable(expand("~/.vimrc_background"))
-"   let base16colorspace=256
-"   source ~/.vimrc_background
-" else
-"   echomsg 'Please install Base16 Shell.'
-"   let base16colorspace=256 " Access colors present in 256 colorspace
-"   colorscheme base16-solarized-dark
-" endif
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+else
+  echomsg 'Please install Base16 Shell.'
+  let base16colorspace=256 " Access colors present in 256 colorspace
+  colorscheme base16-solarized-dark
+endif
 
 " Airline.
-if filereadable(expand("~/.config/vim/theme"))
-  source ~/.config/vim/theme
-else
-  echomsg 'Please run theme_light or theme_dark.'
-  set background=dark
-  let g:airline_theme = 'solarized'
-  let g:airline_solarized_bg = 'dark'
-endif
+" if filereadable(expand("~/.config/vim/theme"))
+"   source ~/.config/vim/theme
+" else
+  " echomsg 'Please run theme_light or theme_dark.'
+  " let g:airline_theme = 'minimalist'
+  " set background=dark
+  " let g:airline_theme = 'solarized'
+  " let g:airline_solarized_bg = 'dark'
+" endif
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0  " Temp disabled.
 
 " Tmuxline.
+let g:tmuxline_powerline_separators = 0
+let g:tmuxline_separators = {
+    \ 'left' : ' ',
+    \ 'left_alt': ':',
+    \ 'right' : ' ',
+    \ 'right_alt' : ' ',
+    \ 'space' : ''}
 let g:tmuxline_status_justify = 'left'
 let g:tmuxline_preset = {
       \'a'    : '#S',
