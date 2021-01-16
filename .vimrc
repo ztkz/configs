@@ -136,7 +136,7 @@ set hlsearch
 " let mapleader=','
 
 " Enable mouse support.
-set mouse=a
+" set mouse=a
 
 " Clipboard persistence.
 autocmd VimLeave * call system("xsel -ib", getreg('+'))
