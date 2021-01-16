@@ -15,6 +15,17 @@ setopt COMPLETE_IN_WORD
 EDITOR=vim
 bindkey -v
 
+alias vi='vim'
+
+alias rm='rm -vi'
+alias chmod='chmod -v'
+alias chown='chown -v'
+alias mount='mount -v'
+alias umount='umount -v'
+alias mv='mv -vi'
+alias cp='cp -vi'
+alias mkdir='mkdir -v'
+
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 
