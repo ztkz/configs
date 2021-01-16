@@ -17,6 +17,7 @@ EDITOR=vim
 KEYTIMEOUT=1
 
 alias vi='vim'
+alias tm='tmux new -A -s tm'
 
 alias rm='rm -vi'
 alias chmod='chmod -v'
