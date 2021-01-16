@@ -13,7 +13,8 @@ setopt COMPLETE_IN_WORD
 # Set up personal aliases, functions, etc.
 # ...(put your own stuff here!)...
 EDITOR=vim
-bindkey -v
+# bindkey -v
+KEYTIMEOUT=1
 
 alias vi='vim'
 
