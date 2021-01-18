@@ -19,6 +19,9 @@ KEYTIMEOUT=1
 alias vi='vim'
 alias tm='tmux new -A -s tm'
 
+alias jt_light='cp $HOME/.jupyter/custom/custom_light.css $HOME/.jupyter/custom/custom.css'
+alias jt_dark='cp $HOME/.jupyter/custom/custom_dark.css $HOME/.jupyter/custom/custom.css'
+
 alias rm='rm -vi'
 alias chmod='chmod -v'
 alias chown='chown -v'
