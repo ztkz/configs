@@ -30,6 +30,7 @@ alias mkdir='mkdir -v'
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/"
