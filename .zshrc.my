@@ -20,9 +20,11 @@ alias vi='vim'
 alias tm='tmux new -A -s tm'
 
 alias jt_light='cp $HOME/.jupyter/custom/custom_light.css $HOME/.jupyter/custom/custom.css \
-  && cp $HOME/.jupyter/custom/current_theme_light.txt $HOME/.jupyter/custom/current_theme.txt'
+  && cp $HOME/.jupyter/custom/current_theme_light.txt $HOME/.jupyter/custom/current_theme.txt \
+  && cp $HOME/.jupyter/custom/vim_binding_light.css $HOME/.local/share/jupyter/nbextensions/vim_binding/vim_binding.css'
 alias jt_dark='cp $HOME/.jupyter/custom/custom_dark.css $HOME/.jupyter/custom/custom.css \
-  && cp $HOME/.jupyter/custom/current_theme_dark.txt $HOME/.jupyter/custom/current_theme.txt'
+  && cp $HOME/.jupyter/custom/current_theme_dark.txt $HOME/.jupyter/custom/current_theme.txt \
+  && cp $HOME/.jupyter/custom/vim_binding_dark.css $HOME/.local/share/jupyter/nbextensions/vim_binding/vim_binding.css'
 
 alias rm='rm -vi'
 alias chmod='chmod -v'

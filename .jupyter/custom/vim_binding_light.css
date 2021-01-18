@@ -1,0 +1,30 @@
+.CodeMirror-dialog-bottom {
+ position: absolute;
+ width: 100%;
+ bottom: 0;
+ z-index: 100;
+ background-color: #ededed;
+ color: #303030;
+ padding-right: 1.2em;
+ border: 0px;
+ border-top-left-radius: 0px;
+ border-top-right-radius: 2px;
+ border-bottom-left-radius: 0px;
+ border-bottom-right-radius: 0px;
+}
+.CodeMirror-dialog-bottom input {
+ border: none;
+ outline: none;
+ color: #303030;
+ background-color: #ededed;
+ width: calc(99%);
+}
+.edit_mode .cell.selected .CodeMirror-focused.cm-fat-cursor {
+ background-color: #ededed;
+ color: #303030;
+}
+.edit_mode .cell.selected .CodeMirror-focused:not(.cm-fat-cursor) {
+ background-color: #ededed;
+ color: #303030;
+}
+
