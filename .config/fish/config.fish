@@ -20,6 +20,7 @@ alias hr 'history --merge'  # read and merge history from disk
 
 # omf install virtualfish sublime python pbcopy lucky colorman extract grc
 
+set -gx PATH /home/artem/.local/bin $PATH
 
 eval (python -m virtualfish)
 # set -x WORKON_HOME ~/.virtualenvs
@@ -49,3 +50,9 @@ alias sctlh 'systemctl hibernate'
 umask 027
 
 source ~/.config/fish/current_theme.fish
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+eval /home/artem/anaconda3/bin/conda "shell.fish" "hook" $argv | source
+# <<< conda initialize <<<
+
