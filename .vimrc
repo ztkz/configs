@@ -62,11 +62,13 @@ if isdirectory(expand('$HOME/.vim/bundle/Vundle.vim'))
   Plugin 'mhinz/vim-signify'
   Plugin 'tpope/vim-obsession'
   Plugin 'editorconfig/editorconfig-vim'
-  Plugin 'ambv/black'
+  " Plugin 'ambv/black'
+  Plugin 'psf/black'
   Plugin 'lifepillar/vim-solarized8'
   " Plugin 'noahfrederick/vim-noctu'
   " Plugin 'jeffkreeftmeijer/vim-dim'
   Plugin 'dawikur/base16-vim-airline-themes'
+  Plugin 'fisadev/vim-isort'
   """""""""""""""""""""
   " Plugin 'scrooloose/nerdcommenter'
   " Plugin 'Valloric/MatchTagAlways'
@@ -91,7 +93,9 @@ endif
 call glaive#Install()
 " Optional: Enable codefmt's default mappings on the <Leader>= prefix.
 Glaive codefmt plugin[mappings]
-autocmd FileType python let b:codefmt_formatter = 'yapf'
+" autocmd FileType python let b:codefmt_formatter = 'yapf'
+autocmd FileType python let b:codefmt_formatter = 'black'
+Glaive codefmt black_executable="black_line_length"
 " Glaive codefmt google_java_executable="java -jar /path/to/google-java-format-VERSION-all-deps.jar"
 
 "==============="
@@ -297,3 +301,5 @@ endif
   if &term == "screen" || &term == "xterm"
     set title
 endif
+
+let g:vim_isort_map = '<C-i>'
