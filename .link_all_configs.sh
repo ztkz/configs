@@ -19,3 +19,5 @@ cfg_link_file .vimrc
 cfg_link_file .zshrc
 cfg_link_file .zshrc.my
 cfg_link_file .zshrc.omz
+cfg_link_file .config/pylintrc
+cfg_link_file .config/.flake8
