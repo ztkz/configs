@@ -1,2 +1,2 @@
 [MESSAGES CONTROL]
-disable=all
+disable=W,C,no-member

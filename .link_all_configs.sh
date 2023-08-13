@@ -1,5 +1,9 @@
+realpath_s() {
+    python3 -c "import os; print(os.path.abspath('$1'))"
+}
+
 FROM_DIR=$(dirname "$PWD"/"$0")
-FROM_DIR=$(realpath -s "$FROM_DIR")
+FROM_DIR=$(realpath_s "$FROM_DIR")
 TO_DIR="$HOME"
 
 echo Linking from "$FROM_DIR" to "$TO_DIR"."\n"
