@@ -2,6 +2,8 @@
 # zshrc is sourced in interactive shells.  It should contain commands to set up
 # aliases, functions, options, key bindings, etc.
 
+stty -ixon
+
 # Keep oodles of command history (see https://fburl.com/zshhistory).
 HISTSIZE=1000000
 SAVEHIST=1000000
@@ -34,6 +36,9 @@ alias umount='umount -v'
 alias mv='mv -vi'
 alias cp='cp -vi'
 alias mkdir='mkdir -v'
+
+alias day='base16_solarized-light'
+alias night='base16_solarflare'
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
