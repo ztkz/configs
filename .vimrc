@@ -69,6 +69,7 @@ if isdirectory(expand('$HOME/.vim/bundle/Vundle.vim'))
   " Plugin 'jeffkreeftmeijer/vim-dim'
   Plugin 'dawikur/base16-vim-airline-themes'
   Plugin 'fisadev/vim-isort'
+  Plugin 'dense-analysis/ale'
   """""""""""""""""""""
   " Plugin 'scrooloose/nerdcommenter'
   " Plugin 'Valloric/MatchTagAlways'
@@ -303,3 +304,9 @@ endif
 endif
 
 let g:vim_isort_map = '<C-i>'
+
+let g:syntastic_python_checkers = []
+let g:ale_linters = {'python': ['pyre', 'pyright', 'ruff']}
+let g:ale_fixers = { 'python': ['ruff', 'isort', 'black']}
+let g:ale_fix_on_save = 0
+nnoremap <leader>f :ALEFix<CR>
