@@ -3,15 +3,14 @@
 set -euo pipefail
 
 LINK_PATHS=(
-    .local/bin/black_line_length
+    .bashrc
     .vim/after/ftplugin/python.vim
     .tmux.conf
     .vimrc
     .zshrc
     .zshrc.my
+    .zshrc.my.mac
     .zshrc.omz
-    .config/pylintrc
-    .config/.flake8
 )
 
 abspath() {
@@ -135,7 +134,7 @@ warn_unlinked_repo_files() {
         fi
 
         case "$repo_file" in
-            scripts/*)
+            scripts/*|.gitignore)
                 continue
                 ;;
         esac
@@ -154,9 +153,9 @@ warn_unlinked_repo_files() {
     done < <(git -C "$REPO_ROOT" ls-files -z)
 
     if [[ "$warning_count" -gt 0 ]]; then
-        echo "Total unlinked tracked files (excluding scripts/): $warning_count" >&2
+        echo "Total unlinked tracked files (excluding scripts/ and .gitignore): $warning_count" >&2
     else
-        echo "All tracked files (excluding scripts/) are covered by LINK_PATHS."
+        echo "All tracked files (excluding scripts/ and .gitignore) are covered by LINK_PATHS."
     fi
 }
 
