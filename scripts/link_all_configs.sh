@@ -3,6 +3,7 @@
 set -euo pipefail
 
 LINK_PATHS=(
+    .config/nvim
     .bashrc
     .vim/after/ftplugin/python.vim
     .tmux.conf
@@ -77,11 +78,12 @@ migrate_destination_into_repo() {
     local source="$1"
     local destination="$2"
 
-    echo "Migrating existing destination into repo:"
+    echo "Copying existing destination into repo and linking:"
     echo "  $destination -> $source"
     mkdir -p "$(dirname "$source")"
     rm -rf "$source"
-    mv "$destination" "$source"
+    cp -a "$destination" "$source"
+    rm -rf "$destination"
     mkdir -p "$(dirname "$destination")"
     ln -s "$source" "$destination"
 }
@@ -92,7 +94,17 @@ link_one() {
     local destination="$HOME_DIR/$rel_path"
 
     if [[ ! -e "$source" && ! -L "$source" ]]; then
-        echo "Error: source missing in repo: $source" >&2
+        if [[ -L "$destination" ]]; then
+            echo "Error: source missing in repo and destination is a symlink: $destination" >&2
+            exit 1
+        fi
+
+        if [[ -e "$destination" ]]; then
+            migrate_destination_into_repo "$source" "$destination"
+            return 0
+        fi
+
+        echo "Error: source missing in repo and destination missing in home: $rel_path" >&2
         exit 1
     fi
 
