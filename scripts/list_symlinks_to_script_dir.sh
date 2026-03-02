@@ -6,6 +6,15 @@ usage() {
     echo "Usage: $(basename "$0") <target-directory>" >&2
 }
 
+assert_from_repo_root() {
+    local cwd_abs
+    cwd_abs="$(abspath "$PWD")"
+    if [[ "$cwd_abs" != "$repo_root" ]]; then
+        echo "Error: run this script from the repo root: $repo_root" >&2
+        exit 1
+    fi
+}
+
 abspath() {
     local path="$1"
 
@@ -38,14 +47,25 @@ if [[ $# -ne 1 ]]; then
     exit 1
 fi
 
+script_path="$(abspath "${BASH_SOURCE[0]}")"
+script_dir="$(dirname "$script_path")"
+repo_root="$(git -C "$script_dir" rev-parse --show-toplevel 2>/dev/null || true)"
+if [[ -z "$repo_root" ]]; then
+    echo "Error: could not resolve git repo root from $script_dir" >&2
+    exit 1
+fi
+if [[ "$script_dir" != "$repo_root/scripts" ]]; then
+    echo "Error: expected script to live in repo scripts dir: $repo_root/scripts" >&2
+    exit 1
+fi
+assert_from_repo_root
+
 target_dir="$1"
 if [[ ! -d "$target_dir" ]]; then
     echo "Error: target directory does not exist: $target_dir" >&2
     exit 1
 fi
 
-script_path="$(abspath "${BASH_SOURCE[0]}")"
-script_dir="$(dirname "$script_path")"
 target_dir_abs="$(abspath "$target_dir")"
 
 found=0
