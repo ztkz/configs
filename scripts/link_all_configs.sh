@@ -4,6 +4,7 @@ set -euo pipefail
 
 LINK_PATHS=(
     .config/nvim
+    .config/my_scripts
     .bashrc
     .vim/after/ftplugin/python.vim
     .tmux
