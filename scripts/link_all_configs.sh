@@ -6,6 +6,7 @@ LINK_PATHS=(
     .config/nvim
     .bashrc
     .vim/after/ftplugin/python.vim
+    .tmux
     .tmux.conf
     .vimrc
     .zshrc
