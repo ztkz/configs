@@ -11,7 +11,13 @@ catppuccin_apply() {
     dumb) return 0 ;;
   esac
 
-  osc() { printf '\033]%s\007' "$1"; }
+  osc() {
+	if [ -n "${TMUX-}" ]; then
+	  printf '\033Ptmux;\033\033]%s\007\033\\' "$1"
+	else
+	  printf '\033]%s\007' "$1"
+	fi
+  }
 
   hex_to_rgb() {
     h="${1#\#}"
