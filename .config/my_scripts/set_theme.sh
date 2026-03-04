@@ -23,8 +23,9 @@ esac
 sh "$HOME/.config/my_scripts/catppuccin_shell_theme.sh" "${flavor}"
 
 if command -v tmux >/dev/null 2>&1; then
-  tmux set -g @catppuccin_flavor "${flavor}" >/dev/null 2>&1 || true
   bash "$HOME/.tmux/catppuccin-reset.sh" >/dev/null 2>&1 || true
+  tmux set -g @catppuccin_flavor "${flavor}" >/dev/null 2>&1 || true
+  tmux source-file "$HOME/.tmux/catppuccin-options.conf" >/dev/null 2>&1 || true
   bash "$HOME/.tmux/plugins/tmux/catppuccin.tmux" >/dev/null 2>&1 || true
 fi
 
