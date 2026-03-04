@@ -65,6 +65,7 @@ if isdirectory(expand('$HOME/.vim/bundle/Vundle.vim'))
   " Plugin 'ambv/black'
   Plugin 'psf/black'
   Plugin 'lifepillar/vim-solarized8'
+  Plugin 'catppuccin/vim'
   " Plugin 'noahfrederick/vim-noctu'
   " Plugin 'jeffkreeftmeijer/vim-dim'
   Plugin 'dawikur/base16-vim-airline-themes'
@@ -147,21 +148,134 @@ set hlsearch
 autocmd VimLeave * call system("xsel -ib", getreg('+'))
 
 " Colors.
-" set termguicolors
+set termguicolors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 let g:airline_theme = 'base16_classic'
-colorscheme solarized8
-" set t_Co=256
-" let g:solarized_termcolors=256
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-else
-  " echomsg 'Please install Base16 Shell.'
-  let base16colorspace=256 " Access colors present in 256 colorspace
-  colorscheme base16-solarized-dark
+let s:shell_theme_file = expand('~/.config/shell_theme')
+let s:shell_theme_poll_interval = 3000
+if exists('s:shell_theme_timer') && exists('*timer_stop') && s:shell_theme_timer > 0
+  call timer_stop(s:shell_theme_timer)
 endif
+let s:shell_theme_timer = -1
+let s:shell_theme_last_mtime = -2
+let s:shell_theme_started = 0
+let s:shell_theme_active = ''
+let s:shell_theme_aliases = {
+      \ 'latte': 'latte',
+      \ 'frappe': 'frappe',
+      \ 'macchiato': 'macchiato',
+      \ 'mocha': 'mocha',
+      \ 'light': 'latte',
+      \ 'dark': 'frappe',
+      \ }
+
+function! s:NormalizeShellTheme(raw) abort
+  let l:value = tolower(substitute(a:raw, '^\s*\|\s*$', '', 'g'))
+  return get(s:shell_theme_aliases, l:value, '')
+endfunction
+
+function! s:ReadShellTheme() abort
+  if !filereadable(s:shell_theme_file)
+    return ''
+  endif
+  let l:lines = readfile(s:shell_theme_file, '', 1)
+  if empty(l:lines)
+    return ''
+  endif
+  return s:NormalizeShellTheme(l:lines[0])
+endfunction
+
+function! s:ApplyShellTheme(...) abort
+  let l:flavor = a:0 > 0 ? s:NormalizeShellTheme(a:1) : ''
+  if empty(l:flavor)
+    let l:flavor = s:ReadShellTheme()
+  endif
+  if empty(l:flavor)
+    let l:flavor = 'frappe'
+  endif
+
+  if l:flavor ==# s:shell_theme_active
+    return
+  endif
+
+  let l:scheme = 'catppuccin_' . l:flavor
+  let l:scheme_file = globpath(&runtimepath, 'colors/' . l:scheme . '.vim')
+  let l:base_scheme_file = globpath(&runtimepath, 'colors/catppuccin.vim')
+
+  if !empty(l:scheme_file)
+    try
+      execute 'colorscheme ' . l:scheme
+      let s:shell_theme_active = l:flavor
+      return
+    catch
+      " continue; try base catppuccin scheme
+    endtry
+  endif
+
+  if !empty(l:base_scheme_file)
+    try
+      let g:catppuccin_flavour = l:flavor
+      colorscheme catppuccin
+      let s:shell_theme_active = l:flavor
+      return
+    catch
+      " do nothing
+    endtry
+  endif
+endfunction
+
+function! s:PollShellTheme(timer) abort
+  let l:mtime = getftime(s:shell_theme_file)
+  if l:mtime != s:shell_theme_last_mtime
+    let s:shell_theme_last_mtime = l:mtime
+    call s:ApplyShellTheme()
+  endif
+endfunction
+
+function! s:StartShellThemeWatcher() abort
+  if s:shell_theme_started
+    return
+  endif
+  let s:shell_theme_started = 1
+  let s:shell_theme_last_mtime = getftime(s:shell_theme_file)
+  call s:ApplyShellTheme()
+
+  if exists('*timer_start')
+    let s:shell_theme_timer = timer_start(
+          \ s:shell_theme_poll_interval,
+          \ function('<SID>PollShellTheme'),
+          \ {'repeat': -1}
+          \ )
+  endif
+endfunction
+
+function! s:ThemeWatchStatus() abort
+  let l:file_flavor = s:ReadShellTheme()
+  if empty(l:file_flavor)
+    let l:file_flavor = 'none'
+  endif
+  let l:active_flavor = empty(s:shell_theme_active) ? 'none' : s:shell_theme_active
+  let l:timer_active = s:shell_theme_timer > 0 ? 'true' : 'false'
+  let l:backend = exists('*timer_start') ? 'timer_poll' : 'autocmd_only'
+
+  echom 'Theme watch status:'
+  echom 'started: ' . (s:shell_theme_started ? 'true' : 'false')
+  echom 'backend: ' . l:backend
+  echom 'timer active: ' . l:timer_active
+  echom 'poll interval: ' . (s:shell_theme_poll_interval / 1000) . 's'
+  echom 'file: ' . s:shell_theme_file
+  echom 'file flavor: ' . l:file_flavor
+  echom 'active flavor: ' . l:active_flavor
+endfunction
+
+command! ThemeWatchStatus call <SID>ThemeWatchStatus()
+
+augroup shell_theme_sync
+  autocmd!
+  autocmd VimEnter * call <SID>StartShellThemeWatcher()
+  autocmd FocusGained,BufEnter * call <SID>PollShellTheme(0)
+augroup END
 
 " Airline.
 " if filereadable(expand("~/.config/vim/theme"))
