@@ -33,7 +33,7 @@ if isdirectory(expand('$HOME/.vim/bundle/Vundle.vim'))
   Plugin 'google/vim-colorscheme-primary'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
-  Bundle 'edkolev/tmuxline.vim'
+  " Bundle 'edkolev/tmuxline.vim'
   Plugin 'scrooloose/nerdtree'
   Plugin 'vim-syntastic/syntastic'
   " Plugin 'tpope/vim-surround.git'  " TODO.
@@ -293,20 +293,20 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline_powerline_fonts = 0  " Temp disabled.
 
 " Tmuxline.
-let g:tmuxline_powerline_separators = 0
-let g:tmuxline_separators = {
-    \ 'left' : ' ',
-    \ 'left_alt': ':',
-    \ 'right' : ' ',
-    \ 'right_alt' : ' ',
-    \ 'space' : ''}
-let g:tmuxline_status_justify = 'left'
-let g:tmuxline_preset = {
-      \'a'    : '#S',
-      \'win'  : ['#I', '#W'],
-      \'cwin' : ['#I', '#W'],
-      \'y'    : ['%Y-%m-%d', '%T'],
-      \'z'    : '#h'}
+" let g:tmuxline_powerline_separators = 0
+" let g:tmuxline_separators = {
+"     \ 'left' : ' ',
+"     \ 'left_alt': ':',
+"     \ 'right' : ' ',
+"     \ 'right_alt' : ' ',
+"     \ 'space' : ''}
+" let g:tmuxline_status_justify = 'left'
+" let g:tmuxline_preset = {
+"       \'a'    : '#S',
+"       \'win'  : ['#I', '#W'],
+"       \'cwin' : ['#I', '#W'],
+"       \'y'    : ['%Y-%m-%d', '%T'],
+"       \'z'    : '#h'}
 
 " Syntastic.
 " set statusline+=%#warningmsg#
