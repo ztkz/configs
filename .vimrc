@@ -63,13 +63,14 @@ if isdirectory(expand('$HOME/.vim/bundle/Vundle.vim'))
   Plugin 'tpope/vim-obsession'
   Plugin 'editorconfig/editorconfig-vim'
   " Plugin 'ambv/black'
-  Plugin 'psf/black'
+  " Plugin 'psf/black'
   Plugin 'lifepillar/vim-solarized8'
   Plugin 'catppuccin/vim'
   " Plugin 'noahfrederick/vim-noctu'
   " Plugin 'jeffkreeftmeijer/vim-dim'
   Plugin 'dawikur/base16-vim-airline-themes'
   Plugin 'fisadev/vim-isort'
+  Plugin 'will133/vim-dirdiff'
   Plugin 'dense-analysis/ale'
   """""""""""""""""""""
   " Plugin 'scrooloose/nerdcommenter'
@@ -149,8 +150,8 @@ autocmd VimLeave * call system("xsel -ib", getreg('+'))
 
 " Colors.
 set termguicolors
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum" ???
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum" ???
 let g:airline_theme = 'base16_classic'
 let s:shell_theme_file = expand('~/.config/shell_theme')
 let s:shell_theme_poll_interval = 3000
@@ -419,8 +420,13 @@ endif
 
 let g:vim_isort_map = '<C-i>'
 
+set termguicolors
+colorscheme catppuccin_latte
+
 let g:syntastic_python_checkers = []
 let g:ale_linters = {'python': ['pyre', 'pyright', 'ruff']}
 let g:ale_fixers = { 'python': ['ruff', 'isort', 'black']}
 let g:ale_fix_on_save = 0
 nnoremap <leader>f :ALEFix<CR>
+
+nnoremap Y y$

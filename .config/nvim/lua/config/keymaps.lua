@@ -1,3 +1,31 @@
 -- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+-- Default keymaps that are always set:
+-- https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
+
+local map = vim.api.nvim_set_keymap
+local cmd = vim.cmd
+
+-- map arrow keys to pane shifts.
+map("n", "<Up>", "<C-w><C-k>", { noremap = true })
+map("n", "<Down>", "<C-w><C-j>", { noremap = true })
+map("n", "<Left>", "<C-w><C-h>", { noremap = true })
+map("n", "<Right>", "<C-w><C-l>", { noremap = true })
+
+-- avoid mistyping write/quit
+cmd("command WQ wq")
+cmd("command Wq wq")
+cmd("command W w")
+cmd("command Q q")
+
+vim.keymap.set("n", "<leader>hd", "<cmd>DiffviewOpen<cr>", { desc = "Open Diffview" })
+vim.keymap.set("n", "<leader>hD", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
+vim.keymap.set("n", "<leader>hr", "<cmd>DiffviewRefresh<cr>", { desc = "Refresh Diffview" })
+-- vim.keymap.set("n", "<leader>hh", "<cmd>DiffviewFileHistory<cr>", { desc = "Git File History" })
+
+-- using Meta/Alt can result in <Esc> being interpreted as Meta/Alt, which makes
+-- for odd behaviors when quickly pressing <Esc> sometimes, so disable Meta
+-- chords.
+-- https://github.com/neovim/neovim/issues/20064
+vim.keymap.del({ "n", "i", "v" }, "<A-j>")
+vim.keymap.del({ "n", "i", "v" }, "<A-k>")
