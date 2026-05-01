@@ -14,7 +14,7 @@ setopt COMPLETE_IN_WORD
 
 # Set up personal aliases, functions, etc.
 # ...(put your own stuff here!)...
-EDITOR=vim
+
 # bindkey -v
 KEYTIMEOUT=1
 
@@ -40,6 +40,27 @@ alias mkdir='mkdir -v'
 alias day='base16_solarized-light'
 alias night='base16_solarflare'
 
+export EDITOR=nvim
+
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+export HISTFILE="$HOME/.zsh_history"
+
+stty -ixon  # Vim Ctrl+S freeze fix.
+
+if [[ -f "$HOME/.config/my_scripts/theme_shell_bootstrap.sh" ]]; then
+  source "$HOME/.config/my_scripts/theme_shell_bootstrap.sh"
+  autoload -Uz add-zsh-hook
+  add-zsh-hook precmd theme_apply_current_tty_flavor
+  theme_auto_bootstrap
+fi
+
+notify() {
+  if [ -n "$TMUX" ]; then
+    printf '\ePtmux;\e\e]9;%s\a\e\\' "$1"
+  else
+    printf '\e]9;%s\a' "$1"
+  fi
+}
