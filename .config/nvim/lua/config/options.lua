@@ -21,3 +21,6 @@ opt.clipboard = ""
 
 -- Tab complete for cmd mode should autocomplete the first result immediately.
 opt.wildmode = "full"
+
+opt.wrap = true
+opt.linebreak = true
